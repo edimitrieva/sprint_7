@@ -8,7 +8,7 @@ import java.util.List;
 
 public class OrderGenerate {
 
-    public static Orders getDefaultWithColorGrey(){
+    public static Orders getDefaultWithColorGrey() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = LocalDate.now().plusDays(2).format(formatter);
         return new Orders(
@@ -22,7 +22,8 @@ public class OrderGenerate {
                 "test",
                 List.of("GREY"));
     }
-    public static Orders getDefaultWithColorBlack(){
+
+    public static Orders getDefaultWithColorBlack() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = LocalDate.now().plusDays(2).format(formatter);
         return new Orders(
@@ -37,7 +38,7 @@ public class OrderGenerate {
                 List.of("BLACK"));
     }
 
-    public static Orders getDefaultWithColorGreyAndBlack(){
+    public static Orders getDefaultWithColorGreyAndBlack() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = LocalDate.now().plusDays(2).format(formatter);
         return new Orders(
@@ -52,7 +53,7 @@ public class OrderGenerate {
                 List.of("BLACK", "GREY"));
     }
 
-    public static Orders getDefaultWithoutColor(){
+    public static Orders getDefaultWithoutColor() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = LocalDate.now().plusDays(2).format(formatter);
         return new Orders(

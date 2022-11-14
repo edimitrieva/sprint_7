@@ -19,22 +19,21 @@ public class CourierCreateTest {
     int id;
 
     @Before
-    public void setup(){
+    public void setup() {
         courier = CourierGenerate.getRandom();
         courierClient = new CourierClient();
     }
 
     @After
-    public void cleanUp(){
+    public void cleanUp() {
         ValidatableResponse responseDelete = courierClient.delete(id);
-        System.out.println("id "+id+" "+responseDelete.extract().path("ok"));
-
+        System.out.println("id " + id + " " + responseDelete.extract().path("ok"));
     }
 
     @Test
     @DisplayName("Create courier")
     @Description("Basic test for /api/v1/courier")
-    public void courierCanBeCreated(){
+    public void courierCanBeCreated() {
         ValidatableResponse responseCreate = courierClient.create(courier);
         ValidatableResponse responseLogin = courierClient.login(Credential.from(courier));
         System.out.println(courier.getLogin());
@@ -42,17 +41,16 @@ public class CourierCreateTest {
         int statusCode = responseCreate.extract().statusCode();
 
         Assert.assertEquals("Expected 201", SC_CREATED, statusCode);
-        if (statusCode == SC_OK){
+        if (statusCode == SC_OK) {
             boolean answer = responseCreate.extract().path("ok");
             Assert.assertTrue(answer);
         }
-
     }
 
     @Test
     @DisplayName("Create duplicate courier")
     @Description("Check statusCode and error message if we create a duplicate courier")
-    public void courierCreateDuplicate(){
+    public void courierCreateDuplicate() {
         courierClient.create(courier);
         ValidatableResponse responseCreateDuplicate = courierClient.create(courier);
         ValidatableResponse responseLogin = courierClient.login(Credential.from(courier));
@@ -61,6 +59,6 @@ public class CourierCreateTest {
         String answer = responseCreateDuplicate.extract().path("message");
 
         Assert.assertEquals("Expected 409", SC_CONFLICT, statusCode);
-        Assert.assertEquals("Expected error message",ERROR_DUPLICATE_LOGIN,answer);
+        Assert.assertEquals("Expected error message", ERROR_DUPLICATE_LOGIN, answer);
     }
 }

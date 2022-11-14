@@ -21,7 +21,7 @@ public class CourierCreateErrorTest {
     String expectedErrorMessage;
 
     @Before
-    public void setup(){
+    public void setup() {
         courierClient = new CourierClient();
     }
 
@@ -31,12 +31,12 @@ public class CourierCreateErrorTest {
         this.expectedErrorMessage = expectedErrorMessage;
     }
 
-    @Parameterized.Parameters
-    public static Object[][] getTestData(){
+    @Parameterized.Parameters(name = "Тестовые данные: date for create courier = {0} expectedStatusCode = {1} expectedErrorMessage = {2}")
+    public static Object[][] getTestData() {
         return new Object[][]{
                 {CourierGenerate.getWithoutLogin(), SC_BAD_REQUEST, ERROR_NOT_DATA_FOR_CREATE_ORDER},
                 {CourierGenerate.getWithoutPassword(), SC_BAD_REQUEST, ERROR_NOT_DATA_FOR_CREATE_ORDER},
-                {CourierGenerate.getWithEmptyPassword(),SC_BAD_REQUEST, ERROR_NOT_DATA_FOR_CREATE_ORDER},
+                {CourierGenerate.getWithEmptyPassword(), SC_BAD_REQUEST, ERROR_NOT_DATA_FOR_CREATE_ORDER},
                 {CourierGenerate.getWithEmptyLogin(), SC_BAD_REQUEST, ERROR_NOT_DATA_FOR_CREATE_ORDER}
         };
     }
@@ -44,15 +44,12 @@ public class CourierCreateErrorTest {
     @Test
     @DisplayName("Create courier: errors")
     @Description("Create courier without login or password")
-    public void courierErrorCreate(){
+    public void courierErrorCreate() {
         ValidatableResponse responseCreate = courierClient.create(courier);
         int statusCodeCreate = responseCreate.extract().statusCode();
         String answer = responseCreate.extract().path("message");
 
         Assert.assertEquals(expectedStatusCode, statusCodeCreate);
         Assert.assertEquals(expectedErrorMessage, answer);
-
     }
-
-
 }

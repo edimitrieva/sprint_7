@@ -1,9 +1,7 @@
 package org.example.model;
-
 import java.util.List;
 
 public class Orders {
-
     private String firstName;
     private String lastName;
     private String address;

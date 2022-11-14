@@ -18,7 +18,6 @@ public class GetOrderByNumberErrorTest {
     Integer orderId;
     int expectedStatusCode;
     String expectedErrorMessage;
-
     OrderClient orderClient;
 
     @Before
@@ -33,26 +32,24 @@ public class GetOrderByNumberErrorTest {
         this.expectedErrorMessage = expectedErrorMessage;
     }
 
-    @Parameterized.Parameters
-    public static Object[][] getTestData(){
+    @Parameterized.Parameters(name = "Тестовые данные: orderId = {0} expectedStatusCode = {1} expectedErrorMessage = {2}")
+    public static Object[][] getTestData() {
         return new Object[][]{
                 {null, SC_BAD_REQUEST, ERROR_BAD_REQUEST},
                 {10000000, SC_NOT_FOUND, ERROR_ORDER_NOT_FOUND}
         };
     }
 
-
     @Test
     @DisplayName("Get order by number: errors")
-    @Description("Get order by numbe without track or unknown track")
-    public void courierErrorGetOrderByNumber(){
-        System.out.println("orderId "+orderId);
+    @Description("Get order by number without track or unknown track")
+    public void courierErrorGetOrderByNumber() {
+        System.out.println("orderId " + orderId);
         ValidatableResponse responseGetOrder = orderClient.getResponseOrderByNumber(orderId);
         int statusCodeCreate = responseGetOrder.extract().statusCode();
         String answer = responseGetOrder.extract().path("message");
 
         Assert.assertEquals(expectedStatusCode, statusCodeCreate);
         Assert.assertEquals(expectedErrorMessage, answer);
-
     }
 }

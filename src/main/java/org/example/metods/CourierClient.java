@@ -8,7 +8,6 @@ import org.example.model.Credential;
 import static io.restassured.RestAssured.given;
 
 public class CourierClient extends Client {
-
     private static final String PATH_CREATE_COURIER = "/api/v1/courier";
     private static final String PATH_LOGIN_COURIER = "/api/v1/courier/login";
     private static final String PATH_DELETE ="/api/v1/courier/";
@@ -41,6 +40,4 @@ public class CourierClient extends Client {
                 .delete(PATH_DELETE+id)
                 .then();
     }
-
-
 }

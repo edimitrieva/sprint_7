@@ -18,23 +18,22 @@ public class GetOrderByNumberTest {
     int track;
 
     @Before
-    public void setup(){
+    public void setup() {
         orders = OrderGenerate.getDefaultWithColorBlack();
         orderClient = new OrderClient();
         ValidatableResponse responseOrderCreate = orderClient.create(orders);
         track = responseOrderCreate.extract().path("track");
-
     }
 
     @After
-    public void cleanUp(){
+    public void cleanUp() {
         orderClient.cancel(track);
     }
 
     @Test
     @DisplayName("Get order by number")
     @Description("Basic tests for /api/v1/orders/track")
-    public void checkGetOrderByNumber(){
+    public void checkGetOrderByNumber() {
         System.out.println(track);
         ValidatableResponse responseAcceptOrder = orderClient.getResponseOrderByNumber(track);
         int statusCode = responseAcceptOrder.extract().statusCode();
@@ -43,8 +42,7 @@ public class GetOrderByNumberTest {
 
         Assert.assertEquals(SC_OK, statusCode);
         Assert.assertNotNull(order);
-        Assert.assertEquals( track, trackFromOder);
-
+        Assert.assertEquals(track, trackFromOder);
     }
 }
 

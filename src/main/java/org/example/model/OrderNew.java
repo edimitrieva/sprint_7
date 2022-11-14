@@ -9,6 +9,17 @@ public class OrderNew {
     private String address;
     private String metroStation;
     private String phone;
+    private int rentTime;
+    private String deliveryDate;
+    private int track;
+    private String comment;
+    private List<String> color;
+    private boolean cancelled;
+    private boolean finished;
+    private boolean inDelivery;
+    private String createdAt;
+    private String updatedAt;
+    private int status;
 
     public int getId() {
         return id;
@@ -145,16 +156,4 @@ public class OrderNew {
     public void setStatus(int status) {
         this.status = status;
     }
-
-    private int rentTime;
-    private String deliveryDate;
-    private int track;
-    private String comment;
-    private List<String> color;
-    private boolean cancelled;
-    private boolean finished;
-    private boolean inDelivery;
-    private String createdAt;
-    private String updatedAt;
-    private int status;
 }

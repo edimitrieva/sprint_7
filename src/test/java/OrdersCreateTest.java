@@ -20,35 +20,34 @@ public class OrdersCreateTest {
     int track;
 
     @Before
-    public void setup(){
+    public void setup() {
         orderClient = new OrderClient();
     }
 
     @After
-    public void cleanUp(){
+    public void cleanUp() {
         ValidatableResponse responseOrder = orderClient.cancel(track);
-        System.out.println("track "+track+" "+responseOrder.extract().path("ok"));
+        System.out.println("track " + track + " " + responseOrder.extract().path("ok"));
     }
 
     public OrdersCreateTest(Orders orders) {
         this.orders = orders;
     }
 
-    @Parameterized.Parameters
-    public static Object[][] getTestData(){
+    @Parameterized.Parameters(name = "Тестовые данные: date for create order = {0}")
+    public static Object[][] getTestData() {
         return new Object[][]{
                 {OrderGenerate.getDefaultWithColorBlack()},
                 {OrderGenerate.getDefaultWithColorGrey()},
                 {OrderGenerate.getDefaultWithColorGreyAndBlack()},
                 {OrderGenerate.getDefaultWithoutColor()}
-
         };
     }
 
     @Test
     @DisplayName("Order creation")
     @Description("Basic tests for /api/v1/orders")
-    public void courierOrderCreate(){
+    public void courierOrderCreate() {
         ValidatableResponse responseOrderCreate = orderClient.create(orders);
         int statusCodeCreate = responseOrderCreate.extract().statusCode();
         track = responseOrderCreate.extract().path("track");
@@ -56,7 +55,5 @@ public class OrdersCreateTest {
         Assert.assertEquals(SC_CREATED, statusCodeCreate);
         Assert.assertNotNull(track);
         System.out.println(track);
-
     }
-
 }

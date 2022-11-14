@@ -27,46 +27,43 @@ public class AcceptOrdersErrorTest {
     Integer orderId;
     int expectedStatusCode;
     String expectedErrorMessage;
-
     OrderClient orderClient;
     Orders orders;
     Courier courier;
-    int flagDeleteCourier=0;
-    int flagDeleteOrder=0;
+    int flagDeleteCourier = 0;
+    int flagDeleteOrder = 0;
     int track;
 
-
     @Before
-    public void setup(){
-
+    public void setup() {
         orderClient = new OrderClient();
-        if(orderId.equals(0)) {
+        if (orderId.equals(0)) {
             orders = OrderGenerate.getDefaultWithColorBlack();
             ValidatableResponse responseOrderCreate = orderClient.create(orders);
             track = responseOrderCreate.extract().path("track");
             orderId = orderClient.getOrderByNumber(track).getOrder().getId();
-            flagDeleteOrder=1;
-        }else if (orderId.equals(-1))
+            flagDeleteOrder = 1;
+        } else if (orderId.equals(-1))
             orderId = null;
 
-        if(courierId.equals(0)) {
+        if (courierId.equals(0)) {
             courier = CourierGenerate.getRandom();
             courierClient = new CourierClient();
             courierClient.create(courier);
             ValidatableResponse responseLogin = courierClient.login(Credential.from(courier));
             courierId = responseLogin.extract().path("id");
-            flagDeleteCourier=1;
-        }else if (courierId.equals(-1))
-            courierId=null;
+            flagDeleteCourier = 1;
+        } else if (courierId.equals(-1))
+            courierId = null;
     }
 
     @After
-    public void cleanUp(){
-        if(flagDeleteOrder==1) orderClient.cancel(track);
-        if(flagDeleteCourier==1) courierClient.delete(courierId);
+    public void cleanUp() {
+        if (flagDeleteOrder == 1) orderClient.cancel(track);
+        if (flagDeleteCourier == 1) courierClient.delete(courierId);
     }
 
-    public AcceptOrdersErrorTest(Integer orderId, Integer courierId,  int expectedStatusCode, String expectedErrorMessage) {
+    public AcceptOrdersErrorTest(Integer orderId, Integer courierId, int expectedStatusCode, String expectedErrorMessage) {
         this.orderId = orderId;
         this.courierId = courierId;
         this.expectedStatusCode = expectedStatusCode;
@@ -76,8 +73,9 @@ public class AcceptOrdersErrorTest {
     //0 - создаем заказ/курьера и присваивам реальный id
     //-1 - присваиваем переменной null
     //любое число - передача параметра
-    @Parameterized.Parameters
-    public static Object[][] getTestData(){
+    @Parameterized.Parameters(name = "Тестовые данные: orderID = {0} courierId = {1} expectedStatusCode = {2} " +
+            "expectedErrorMessage = {3}")
+    public static Object[][] getTestData() {
         return new Object[][]{
                 {-1, 0, SC_BAD_REQUEST, ERROR_BAD_REQUEST},
                 {10000000, 0, SC_NOT_FOUND, ERROR_ORDER_NOT_EXIST},
@@ -86,18 +84,16 @@ public class AcceptOrdersErrorTest {
         };
     }
 
-
     @Test
     @DisplayName("Accept order: errors")
     @Description("Accept order without courirId/orderId or unknown courirId/orderId")
-    public void courierErrorAcceptOrder(){
-        System.out.println("courierId " +courierId +" orderId "+orderId);
+    public void courierErrorAcceptOrder() {
+        System.out.println("courierId " + courierId + " orderId " + orderId);
         ValidatableResponse responseAccept = orderClient.acceptOrder(orderId, courierId);
         int statusCodeCreate = responseAccept.extract().statusCode();
         String answer = responseAccept.extract().path("message");
 
         Assert.assertEquals(expectedStatusCode, statusCodeCreate);
         Assert.assertEquals(expectedErrorMessage, answer);
-
     }
 }

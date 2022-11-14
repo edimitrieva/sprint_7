@@ -10,18 +10,17 @@ import org.junit.Test;
 import static org.apache.http.HttpStatus.SC_OK;
 
 public class OrdersListTest {
-
     OrderClient orderClient;
 
     @Before
-    public void setup(){
+    public void setup() {
         orderClient = new OrderClient();
     }
 
     @Test
     @DisplayName("Order List")
     @Description("Basic test for /api/v1/orders")
-    public void checkOrderList(){
+    public void checkOrderList() {
         ValidatableResponse responseListOrders = orderClient.getListOrdersResponse();
         OrdersList listOrders = orderClient.getListOrders();
         int statusCode = responseListOrders.extract().statusCode();
@@ -30,6 +29,5 @@ public class OrdersListTest {
         Assert.assertNotNull(listOrders.getOrders());
         Assert.assertNotNull(listOrders.getPageInfo());
         Assert.assertNotNull(listOrders.getAvailableStations());
-
     }
 }

@@ -25,7 +25,7 @@ public class AcceptOrdersTest {
     int track;
 
     @Before
-    public void setup(){
+    public void setup() {
         orders = OrderGenerate.getDefaultWithColorBlack();
         orderClient = new OrderClient();
         ValidatableResponse responseOrderCreate = orderClient.create(orders);
@@ -40,7 +40,7 @@ public class AcceptOrdersTest {
     }
 
     @After
-    public void cleanUp(){
+    public void cleanUp() {
         orderClient.cancel(track);
         courierClient.delete(courierId);
     }
@@ -48,15 +48,14 @@ public class AcceptOrdersTest {
     @Test
     @DisplayName("Order creation")
     @Description("Basic tests for /api/v1/orders/accept/:id")
-    public void courierOrderCreate(){
+    public void courierOrderCreate() {
         ValidatableResponse responseAcceptOrder = orderClient.acceptOrder(orderId, courierId);
         int statusCode = responseAcceptOrder.extract().statusCode();
 
         Assert.assertEquals(SC_OK, statusCode);
-        if (statusCode == SC_OK){
+        if (statusCode == SC_OK) {
             boolean answer = responseAcceptOrder.extract().path("ok");
             Assert.assertTrue(answer);
         }
-
     }
 }

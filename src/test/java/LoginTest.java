@@ -13,27 +13,26 @@ import org.junit.Test;
 import static org.apache.http.HttpStatus.SC_OK;
 
 public class LoginTest {
-
     CourierClient courierClient;
     Courier courier;
     int id;
 
     @Before
-    public void setup(){
+    public void setup() {
         courier = CourierGenerate.getRandom();
         courierClient = new CourierClient();
         courierClient.create(courier);
     }
 
     @After
-    public void cleanUp(){
+    public void cleanUp() {
         courierClient.delete(id);
     }
 
     @Test
     @DisplayName("Login success")
     @Description("Basic test for /api/v1/courier/login")
-    public void courierAuthSuccess(){
+    public void courierAuthSuccess() {
         ValidatableResponse responseLogin = courierClient.login(Credential.from(courier));
         System.out.println(courier.getLogin());
         id = responseLogin.extract().path("id");
@@ -41,8 +40,5 @@ public class LoginTest {
 
         Assert.assertEquals("Expected 200", SC_OK, statusCode);
         Assert.assertNotNull(id);
-
     }
-
-
 }

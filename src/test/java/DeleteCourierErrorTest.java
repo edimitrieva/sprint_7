@@ -21,7 +21,7 @@ public class DeleteCourierErrorTest {
     String expectedErrorMessage;
 
     @Before
-    public void setup(){
+    public void setup() {
         courierClient = new CourierClient();
     }
 
@@ -31,25 +31,23 @@ public class DeleteCourierErrorTest {
         this.expectedErrorMessage = expectedErrorMessage;
     }
 
-    @Parameterized.Parameters
-    public static Object[][] getTestData(){
+    @Parameterized.Parameters(name = "Тестовые данные: id = {0} expectedStatusCode = {1} expectedErrorMessage = {2}")
+    public static Object[][] getTestData() {
         return new Object[][]{
                 {null, SC_BAD_REQUEST, ERROR_NOT_DATA_FOR_DELETE_COURIER},
                 {-1, SC_NOT_FOUND, ERROR_COURIER_ID_NOT_FOUND}
         };
     }
 
-
     @Test
     @DisplayName("Delete courier: errors")
     @Description("Delete courier without id or unknown number")
-    public void courierErrorDelete(){
+    public void courierErrorDelete() {
         ValidatableResponse responseDelete = courierClient.delete(id);
         int statusCodeCreate = responseDelete.extract().statusCode();
         String answer = responseDelete.extract().path("message");
 
         Assert.assertEquals(expectedStatusCode, statusCodeCreate);
         Assert.assertEquals(expectedErrorMessage, answer);
-
     }
 }

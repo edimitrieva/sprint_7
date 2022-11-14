@@ -18,14 +18,13 @@ import static org.example.constants.ConstantsError.ERROR_NOT_DATA_FOR_LOGIN;
 
 @RunWith(Parameterized.class)
 public class LoginErrorTest {
-
     CourierClient courierClient;
     Courier courier;
     int expectedStatusCode;
     String expectedErrorMessage;
 
     @Before
-    public void setup(){
+    public void setup() {
         courierClient = new CourierClient();
     }
 
@@ -35,25 +34,24 @@ public class LoginErrorTest {
         this.expectedErrorMessage = expectedErrorMessage;
     }
 
-    @Parameterized.Parameters
-    public static Object[][] getTestData(){
+    @Parameterized.Parameters(name = "Тестовые данные: date for login courier = {0} expectedStatusCode = {1} expectedErrorMessage = {2}")
+    public static Object[][] getTestData() {
         return new Object[][]{
                 {CourierGenerate.getWithoutLogin(), SC_BAD_REQUEST, ERROR_NOT_DATA_FOR_LOGIN},
                 {CourierGenerate.getWithEmptyPassword(), SC_BAD_REQUEST, ERROR_NOT_DATA_FOR_LOGIN},
-                {CourierGenerate.getRandom(),SC_NOT_FOUND,ERROR_COURIER_LOGIN_NOT_FOUND}
+                {CourierGenerate.getRandom(), SC_NOT_FOUND, ERROR_COURIER_LOGIN_NOT_FOUND}
         };
     }
 
     @Test
     @DisplayName("Login: errors")
     @Description("Authorization without login or password. And authorization with unknown login")
-    public void courierErrorLogin(){
+    public void courierErrorLogin() {
         ValidatableResponse responseLogin = courierClient.login(Credential.from(courier));
         int statusCodeCreate = responseLogin.extract().statusCode();
         String answer = responseLogin.extract().path("message");
 
         Assert.assertEquals(expectedStatusCode, statusCodeCreate);
         Assert.assertEquals(expectedErrorMessage, answer);
-
     }
 }

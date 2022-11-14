@@ -17,7 +17,7 @@ public class DeleteCourierTest {
     int id;
 
     @Before
-    public void setup(){
+    public void setup() {
         courier = CourierGenerate.getRandom();
         courierClient = new CourierClient();
         courierClient.create(courier);
@@ -28,15 +28,14 @@ public class DeleteCourierTest {
     @Test
     @DisplayName("Delete courier")
     @Description("Basic test for /api/v1/courier/:id")
-    public void courierDeleteSuccess(){
+    public void courierDeleteSuccess() {
         ValidatableResponse responseDelete = courierClient.delete(id);
         int statusCode = responseDelete.extract().statusCode();
 
         Assert.assertEquals("Expected 200", SC_OK, statusCode);
-        if (statusCode == SC_OK){
+        if (statusCode == SC_OK) {
             boolean answer = responseDelete.extract().path("ok");
             Assert.assertTrue(answer);
         }
-
     }
 }
