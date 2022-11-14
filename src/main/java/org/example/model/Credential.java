@@ -1,0 +1,34 @@
+package org.example.model;
+
+public class Credential {
+    private String login;
+    private String password;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public static Credential from(Courier courier) {
+        return new Credential(courier.getLogin(), courier.getPassword());
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Credential(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public Credential() {
+    }
+}
